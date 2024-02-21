@@ -3,17 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Site Title</title>
+    <title>Mood Prediction</title>
 </head>
 <body>
     <header>
-        <h1>Welcome to My Website</h1>
+        <h1>Mood Prediction Based on Demographics</h1>
     </header>
     <main>
-        <p>This is a paragraph on my new GitHub Pages site!</p>
+        <!-- Form for inputting prediction parameters -->
+        <form id="predictionForm">
+            <label for="gender">Gender:</label>
+            <select name="gender" id="gender">
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+            </select>
+            <br>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age">
+            <br>
+            <label for="eatSleepDiff">Time between dinner and bed (hours):</label>
+            <input type="number" id="eatSleepDiff" name="eatSleepDiff">
+            <br>
+            <label for="dinnerTime">Dinner time:</label>
+            <input type="time" id="dinnerTime" name="dinnerTime">
+            <br>
+            <label for="bedTime">Bed time:</label>
+            <input type="time" id="bedTime" name="bedTime">
+            <br>
+            <button type="button" onclick="predictMood()">Predict Mood</button>
+        </form>
     </main>
     <footer>
         <p>© 2024 by Me. Proudly created with GitHub Pages</p>
     </footer>
+    <script>
+        function predictMood() {
+            // Collect the form data
+            const formData = new FormData(document.getElementById('predictionForm'));
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value; });
+
+            // Make an API request to your Python server
+            fetch('https://your-python-api.com/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Process and display the prediction results here
+                // For example, you could display the mood prediction in a new HTML element
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
 </body>
 </html>
