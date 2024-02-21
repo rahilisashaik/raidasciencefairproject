@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mood Prediction</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
 </head>
 <body>
     <header>
@@ -12,26 +13,12 @@
     <main>
         <!-- Form for inputting prediction parameters -->
         <form id="predictionForm">
-            <label for="gender">Gender:</label>
-            <select name="gender" id="gender">
-                <option value="female">Female</option>
-                <option value="male">Male</option>
-            </select>
-            <br>
-            <label for="age">Age:</label>
-            <input type="number" id="age" name="age">
-            <br>
-            <label for="eatSleepDiff">Time between dinner and bed (hours):</label>
-            <input type="number" id="eatSleepDiff" name="eatSleepDiff">
-            <br>
-            <label for="dinnerTime">Dinner time:</label>
-            <input type="time" id="dinnerTime" name="dinnerTime">
-            <br>
-            <label for="bedTime">Bed time:</label>
-            <input type="time" id="bedTime" name="bedTime">
-            <br>
+            <!-- (Your form fields here) -->
             <button type="button" onclick="predictMood()">Predict Mood</button>
         </form>
+        
+        <!-- Canvas element where the Chart.js plot will be rendered -->
+        <canvas id="moodChart" width="400" height="400"></canvas>
     </main>
     <footer>
         <p>© 2024 by Raida Shaik. Proudly created with GitHub Pages</p>
@@ -44,7 +31,7 @@
             formData.forEach((value, key) => { data[key] = value; });
 
             // Make an API request to your Python server
-            fetch('https://github.com/rahilisashaik/raidasciencefairproject/blob/main/mood_prediction.ipynb', {
+            fetch('https://your-python-api.com/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,9 +40,28 @@
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Success:', data);
-                // Process and display the prediction results here
-                // For example, you could display the mood prediction in a new HTML element
+                // Use Chart.js to plot the data
+                const ctx = document.getElementById('moodChart').getContext('2d');
+                const moodChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Wakefulness', 'Happiness', 'Energized-Drained', 'Active-Inactive', 'Attentiveness'],
+                        datasets: [{
+                            label: 'Mood Score',
+                            data: data.values, // Assuming the API returns an object with a 'values' array
+                            backgroundColor: ['blue', 'green', 'red', 'purple', 'orange'],
+                            borderColor: ['blue', 'green', 'red', 'purple', 'orange'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
             })
             .catch((error) => {
                 console.error('Error:', error);
