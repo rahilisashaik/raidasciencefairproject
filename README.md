@@ -1,0 +1,1 @@
+This github repository is in place as a landing page for Raida Shaik's 2024 Science Fair project regarding the Effects of Eat-Sleep Time Frame on Morning Mood. Raida is currently a 6th grader attending Meyzeek Middle School. 
