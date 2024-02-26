@@ -29,55 +29,59 @@
         <p>© 2024 by Raida Shaik. Proudly created with GitHub Pages</p>
     </footer>
     <script>
-        function predictMood() {
-            // Collect the form data
-            const formData = new FormData(document.getElementById('predictionForm'));
-            const data = {};
-            formData.forEach((value, key) => { data[key] = value; });
+function predictMood() {
+    // Collect the form data
+    const formData = new FormData(document.getElementById('predictionForm'));
+    const data = {};
+    formData.forEach((value, key) => { data[key] = value; });
 
-            // Make an API request to your Flask server
-            fetch('https://github.com/rahilisashaik/raidasciencefairproject/edit/main/raida_sci_fair_att1.py', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Check if the canvas is already initialized
-                let moodChart = Chart.getChart("moodChart"); 
-                if (moodChart) {
-                    moodChart.destroy();
-                }
+    console.log('Sending data:', data); // Log data for debugging
 
-                // Use Chart.js to plot the data
-                const ctx = document.getElementById('moodChart').getContext('2d');
-                moodChart = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Wakefulness', 'Happiness', 'Energized-Drained', 'Active-Inactive', 'Attentiveness'],
-                        datasets: [{
-                            label: 'Mood Score',
-                            data: data.values, // Assuming the API returns an object with a 'values' array
-                            backgroundColor: ['blue', 'green', 'red', 'purple', 'orange'],
-                            borderColor: ['blue', 'green', 'red', 'purple', 'orange'],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+    // Make an API request to your Flask server
+    fetch('https://github.com/rahilisashaik/raidasciencefairproject/edit/main/raida_sci_fair_att1.py', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Received data:', data); // Log response for debugging
+        // Check if the canvas is already initialized
+        let moodChart = Chart.getChart("moodChart"); 
+        if (moodChart) {
+            moodChart.destroy();
         }
+
+        // Use Chart.js to plot the data
+        const ctx = document.getElementById('moodChart').getContext('2d');
+        moodChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Wakefulness', 'Happiness', 'Energized-Drained', 'Active-Inactive', 'Attentiveness'],
+                datasets: [{
+                    label: 'Mood Score',
+                    data: data.values, // Assuming the API returns an object with a 'values' array
+                    backgroundColor: ['blue', 'green', 'red', 'purple', 'orange'],
+                    borderColor: ['blue', 'green', 'red', 'purple', 'orange'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+
     </script>
 </body>
 </html>
