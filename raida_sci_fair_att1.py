@@ -4,6 +4,10 @@ from flask import Flask, render_template, request
 import os
 import uuid
 
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
 
 csv_path = 'form_responses_updated.csv'  
 raw_data = pd.read_csv(csv_path)
@@ -58,4 +62,17 @@ aggregate_and_plot(df, {'Gender': 'Male', 'Age': 20, 'Common eating & sleeping p
 
 # aggregate_and_plot(df, {'Gender': 'Male', 'Age': 20, 'Common eating & sleeping patterns?': 'Yes'}) -> if you accidentally mess up the line, use this one
 
+@app.route('/predict', methods=['POST'])
+def predict():
+    data = request.json
+    # Here you should use your filtering and plotting logic
+    # For example, you would call aggregate_and_plot or similar function
+    # and get the plot data back as a dictionary
+    demographics = data  # Assuming data is a dictionary with the right keys
+    plot_data = your_function_to_get_plot_data(demographics)
+    
+    return jsonify(plot_data)
+
+if __name__ == '__main__':
+    app.run(debug=True)
 
