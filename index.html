@@ -35,8 +35,8 @@
             const data = {};
             formData.forEach((value, key) => { data[key] = value; });
 
-            // Make an API request to your Python server
-            fetch('https://github.com/rahilisashaik/raidasciencefairproject/blob/main/raida_sci_fair_att1.py', {
+            // Make an API request to your Flask server
+            fetch('https://your-flask-api-endpoint.com/predict', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,9 +45,15 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Check if the canvas is already initialized
+                let moodChart = Chart.getChart("moodChart"); 
+                if (moodChart) {
+                    moodChart.destroy();
+                }
+
                 // Use Chart.js to plot the data
                 const ctx = document.getElementById('moodChart').getContext('2d');
-                const moodChart = new Chart(ctx, {
+                moodChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
                         labels: ['Wakefulness', 'Happiness', 'Energized-Drained', 'Active-Inactive', 'Attentiveness'],
