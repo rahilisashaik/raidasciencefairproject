@@ -13,7 +13,12 @@
     <main>
         <!-- Form for inputting prediction parameters -->
         <form id="predictionForm">
-            <!-- (Your form fields here) -->
+            <label for="gender">Gender:</label>
+            <input type="text" id="gender" name="gender"><br><br>
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" min="0"><br><br>
+            <label for="patterns">Common eating & sleeping patterns? (Yes/No):</label>
+            <input type="text" id="patterns" name="patterns"><br><br>
             <button type="button" onclick="predictMood()">Predict Mood</button>
         </form>
         
